@@ -1,6 +1,58 @@
 Download file from Kaggle - Website Satisfaction Survey https://www.kaggle.com/datasets/hayriyigit/website-satisfaction-survey
 Import CSV file into BigQuery
-Split the file into 3 tables:
-  Reviewer
-  Responses
-  Responses_Dropdown
+
+Split the file into 2 tables: survey_responses and respondents
+
+-- Create table for survey responses
+-- user_id is our key that will let us join both tables in the same data model
+-- q1 through q26 are the survey responses
+CREATE TABLE website_satisfaction_survey.survey_responses AS
+SELECT 
+  user_id,
+  q1,
+  q2,
+  q3,
+  q4,
+  q5,
+  q6,
+  q7,
+  q8,
+  q9,
+  q10,
+  q11,
+  q12,
+  q13,
+  q14,
+  q15,
+  q16,
+  q17,
+  q18,
+  q19,
+  q20,
+  q21,
+  q22,
+  q23,
+  q24,
+  q25,
+  q26
+FROM `website_satisfaction_survey.Survey`;
+
+-- Create table for respondents
+-- user_id is key that will let us join both tables in the same data model
+-- platform, gender and age is the information we have about respondents
+-- group age by groups "Less than 20", "20 to 29", "30 to 39" and "40 or More"
+CREATE TABLE website_satisfaction_survey.respondents AS
+SELECT 
+  user_id,
+  platform,
+  gender,
+  age,
+  CASE 
+    WHEN age <= 19 THEN 'less than 20'
+    WHEN age >= 20 AND age < 30 THEN '20 to 29'
+    WHEN age >= 30 AND age < 40 THEN '30 to 39'
+    ELSE '40 or more'
+  END AS age_group
+FROM website_satisfaction_survey.Survey;
+
+Exported both the new tables into csv so that we can then import in BI tools to build dashboard.
