@@ -1,0 +1,6 @@
+Download file from Kaggle - Website Satisfaction Survey https://www.kaggle.com/datasets/hayriyigit/website-satisfaction-survey
+Import CSV file into BigQuery
+Split the file into 3 tables:
+  Reviewer
+  Responses
+  Responses_Dropdown
