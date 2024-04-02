@@ -1,0 +1,27 @@
+First created a file 'questions' with columns "q#", "Question" and "Question Short" because the original questions were too long to use in dashboards.
+  - This is a way to make the dashboard cleaner and still understand what each rating relates to.
+  - Renamed "q26" to "q0" and moved it above "q1" because this is our Likelihood to Recommend Score, which will be one of the main highlights in the dashboard.
+
+Then, cleaned the original file. Since it is a file with few rows, I will keep using excel for some data cleaning and manipulation:
+  - First, removed column "language" as it is not relevant for the analysis.
+  - Renamed column "q26" to "q0" and moved to the left of "q1" - similar to what had been done in the file 'questions'.
+  - Saw that column "age" includes values '1' and '2' but we cannot have respondents with this age so these should be cleaned. These will be renamed to 'Unknown'.
+  - Created a new column "age group" to group different age groups: 'less than 20', '20 to 29', '30 to 39' and '40 or more' and 'Unknown'
+      =IF(D2="Unknown";D2;IF(D2<20;"less than 20";IF(D2<30;"20 to 29";IF(D2<40;"30 to 39";"40 or more"))))
+
+Now that the data is clean, we can separate this file into 2 separate files: 'select_responses' and 'respondents'
+  - 'respondents' - this file only contains our Key that will let us join both tables in the data model and the respondent's information
+  - saved new file 'respondents' as a csv with the columns
+    user_id; platform; gender; age; age group
+ 
+  - 'select_responses' - this file only contains our Key that will let us join both tables in the data model and the responses for each of the questions
+  - saved the new file 'select_responses' as a csv with the columns
+    user_id; q0; q1; q2; q3; q4; q5; q6; q7; q8; q9; q10; q11; q12; q13; q14; q15; q16; q17; q18; q19; q20; q21; q22; q23; q24; q25; 
+  - This file will let us create a parameter to toggle between the different questions and see all info related to that
+
+We still need a file where we will be able to compare all questions against each other so we need to create 'response_comparison'
+  - saved new file 'response_comparison' as a csv with the columns
+    user_id; response; question
+
+We are now ready to import our files into our BI tool and build the data model and dashboard. 
+  
